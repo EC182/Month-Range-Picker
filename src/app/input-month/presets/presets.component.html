@@ -1,0 +1,5 @@
+<div class="presets" *ngIf="presets">
+  <div class="preset-button-wrapper" *ngFor="let preset of presets">
+    <button class="preset-button" (click)="presetSelection(preset)">{{ preset | presetDisplay }}</button>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div style="display:flex">
+  <div style="width: 800px;">
+    <h1>Month Picker </h1>
+    
+    <month-picker></month-picker>
+
+    <hr/>
+
+    <h1>
+      Month Range Picker w/ Presets
+    </h1>
+
+    <month-range-picker></month-range-picker>
+
+  </div>
+
+
+  <div style="margin-left: 200px; width: 400px;">
+    <h1>Styles</h1>
+    <hr/>
+    <pre>
+      <div *ngFor="let style of moduleStyles">
+        <span>.{{ style.name + ' {' }} </span>
+        <div style="margin-left: 65px">{{style.css}}</div>
+        <span>}</span>
+      </div>
+    </pre>
+  </div>
+
+</div>
