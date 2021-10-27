@@ -1,34 +1,15 @@
-<div class="calendar-container">
-  <div class="year-picker-container">
-    <div class="button-container button-container-left">
-      <button type="button" (click)="changeYear(-1)">
-        <div>
-          <div>&lt;</div>
-        </div>
-      </button>
+<div style="flex-grow: 1;">
+  <div class="calendar-year-container">
+    <div class="calendar-year-input">
+      {{ year }}
     </div>
-    <div style="flex-grow: 1;">
-      <div class="calendar-year-container">
-        <div class="calendar-year-input">
-          <input type="text" [ngModel]="selectedYear" (ngModelChange)="inputYear($event)"/>
-        </div>
-      </div>
-      <div class="calendar-month-container">
-        <button class="calendar-month" *ngFor="let month of months; let idx = index"     
-           [ngClass]="{ 
-             'currentMonth' : idx === currentMonth && selectedYear === currentYear 
-            }">
-           <span>{{ month }}</span>
-        </button>
-      </div>
-    </div>
-    <div class="button-container button-container-right">
-      <button type="button" (click)="changeYear(1)">
-        <div>
-          <div>&gt;</div>
-        </div>
-      </button>
-    </div>
+  </div>
+  <div class="calendar-month-container">
+    <button class="calendar-month" *ngFor="let month of months; let idx = index;"     
+        (click)="monthSelection(month)"
+        [ngClass]="buttonStyleByMonth(month)">
+        <span>{{ month }}</span>
+    </button>
   </div>
 </div>
 

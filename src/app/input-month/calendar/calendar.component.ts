@@ -1,16 +1,21 @@
-import { Component, OnInit, Output, EventEmitter, HostBinding } from '@angular/core';
-import { OnChangeEvent, Localization } from "../types";
+import { Component, OnInit, Output, EventEmitter, HostBinding, Input } from '@angular/core';
+import { OnChangeEvent, Localization, MonthData, MonthRangeData, MonthSequence } from "../types";
+import { toMonthSequence } from "../utils";
 
 @Component({
   selector: 'calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.less']
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent {
 
   private static readonly _currentDate: Date = new Date(); 
   
-  @Output() public readonly onMonthChange: EventEmitter<OnChangeEvent> = new EventEmitter();
+  @Input() public year: number = this.currentYear;
+  
+  @Input() public highlightRange: MonthRangeData;
+
+  @Output() public readonly onMonthSelected: EventEmitter<OnChangeEvent> = new EventEmitter();
 
   public get currentMonth(): number { 
     return CalendarComponent._currentDate.getMonth();
@@ -20,23 +25,64 @@ export class CalendarComponent implements OnInit {
     return CalendarComponent._currentDate.getFullYear();
   }
 
-  public selectedYear: number = this.currentYear;
-  public selectedMonth: number = -1;
-  public months: string[] = [];
+  public selectedMonth: MonthData;
 
-  constructor() { }
+  public months: string[] = Localization.monthAbbreviations;
 
-  ngOnInit() {
-     this.months = Localization.monthAbbreviations;
+  public monthSelection(monthAbbreviation: string) {
+    const month = this.months.findIndex((abbr) => monthAbbreviation === abbr);    
+    const selectedMonth = { month, year: this.year };
+    this.selectedMonth = selectedMonth;
+    this.onMonthSelected.emit(selectedMonth);
   }
 
-  public changeYear(increment: number) {
-    this.selectedYear += increment;
+  public buttonStyleByMonth(monthAbbreviation: string) {
+    const month = this.months.findIndex((abbr) => monthAbbreviation === abbr);    
+    const monthSequence = toMonthSequence({month, year: this.year });
+    const { isStart, isEnd, isInRange } = this.isMonthInRange(monthSequence);
+    return { 
+      'currentMonth' : this.isCurrentMonth(monthSequence),
+      'selectedMonth' : this.isSelectedMonth(monthSequence),
+      'selectedMonthRangeStart' : isStart,
+      'selectedMonthRangeEnd' : isEnd,
+      'monthInRange' : isInRange
+    };
   }
 
-  public inputYear(value: number) {
-    if(Number.isInteger(value)){
-      this.selectedYear = Number(value);
-    }        
+  public isCurrentMonth(monthSequence: MonthSequence):boolean {
+    const { currentMonth: month, currentYear: year } = this;  
+    const currentMonthSequence = toMonthSequence({ month, year});
+    return  monthSequence === currentMonthSequence;
+  }
+
+  public isSelectedMonth(monthSequence: MonthSequence):boolean {
+    const { selectedMonth, year } = this;
+    const selectedMonthSequence = selectedMonth && toMonthSequence(selectedMonth);
+    return monthSequence === selectedMonthSequence;
+  }
+
+  public isMonthInRange(currentMonthSequence: MonthSequence): { isStart: boolean, isEnd:boolean, isInRange: boolean} {    
+    const defaultValues = { isStart: false, isEnd: false, isInRange: false };
+    const { highlightRange } = this;  
+
+    if(!highlightRange) {
+      return defaultValues;
+    }
+
+    const { to, from } = highlightRange;
+    if(!(to && from)){
+      return defaultValues;
+    }
+    
+    const fromMonthSequence = toMonthSequence(from);
+    const toMs = toMonthSequence(to);
+
+    const isStart = fromMonthSequence === currentMonthSequence;
+    const isEnd = toMs === currentMonthSequence;  
+    const isInRange = fromMonthSequence < currentMonthSequence && currentMonthSequence < toMs;
+
+    return {
+      isStart, isEnd, isInRange
+    }
   }
 }

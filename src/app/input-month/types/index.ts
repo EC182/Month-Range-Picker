@@ -7,6 +7,11 @@ export type MonthData = {
   month: number | -1;
 };
 
+export type MonthRangeData = {
+  from: MonthData;
+  to: MonthData;
+}
+
 export type Preset =
   'thisMonth' |
   'lastMonth' |
@@ -26,9 +31,6 @@ export type CustomPreset = {
   onClick: () => OnChangeRangeEvent,
 };
 
+export type MonthSequence = number;
 export type OnChangeEvent = MonthData;
-
-export type OnChangeRangeEvent = {
-  from: MonthData;
-  to: MonthData;
-};
+export type OnChangeRangeEvent = MonthRangeData;

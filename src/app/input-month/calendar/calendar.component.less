@@ -2,126 +2,181 @@
   display: inline-flex;
 }
 
-.calendar-container {
-  @media only screen and (max-width: 699px) {
-    & {
-      padding-right: 34px;
+.calendar-year-container {
+  border-bottom: 1px solid #cccccc;
+  flex-grow: 1;
+  font-weight: 700;
+  margin-bottom: 4px;
+  min-width: 212px;
+  padding-bottom: 8px;
+
+  .calendar-year-input {
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    color: #666666;
+    font-weight: 700;
+    outline: 0;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    text-align: center;
+    width: 100%;
+    &:focus {
+      box-shadow: 0 0 5px #1588af;
+      border: 1px solid #1588af !important;
     }
 
-    & + & {
-      margin-left: 0;
-      margin-top: 16px;
-      padding-left: 34px;
-      padding-right: 0;
+    input {
+      border: 1px solid transparent;
+      box-sizing: border-box;
+      color: rgb(102, 102, 102);
+      font-weight: 700;
+      outline: 0px;
+      padding-bottom: 4px;
+      padding-top: 4px;
+      text-align: center;
+      width: 100%;
     }
   }
+}
 
-  .year-picker-container {
-    align-items: flex-start;
-    display: flex;
-    padding-top: 4px;
+.calendar-month-container {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+  & + & {
+    margin-top: 4px;
+  }
 
-    .button-container {
-      margin-top: -4px;
+  button.calendar-month {
+    background-color: unset;
+    border: 2px solid #cccccc;
+    border-color: transparent;
+    border-radius: 50%;
+    box-sizing: border-box;
+    display: block;
+    margin-top: 4;
+    padding: 0;
+    position: relative;
+    width: 25%;
+    &:before {
+      content: '';
+      display: block;
+      padding-top: 100%;
+    }
+    &:hover,
+    &:focus {
+      border-color: #41a8d2;
+      cursor: pointer;
+    }
+    &:active {
+      background-color: #085a7e;
+      border-color: #085a7e;
+      color: #fff;
+      cursor: pointer;
+    }
+    span {
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
 
-    .calendar-year-container {
-      border-bottom: 1px solid #cccccc;
-      flex-grow: 1;
+    &.currentMonth {
+      border-color: auto;
+      border: 2px solid #cccccc;
+      &:focus {
+        border-color: #41a8d2;
+      }
+    }
+
+    &.selectedMonth {
+      background-color: #085a7e;
+      border-color: #085a7e;
+      color: #ffffff;
+      cursor: default;
       font-weight: 700;
-      margin-bottom: 4px;
-      min-width: 212px;
-      padding-bottom: 8px;
-
-      .calendar-year-input {
-        border: 1px solid transparent;
-        box-sizing: border-box;
-        color: #666666;
-        font-weight: 700;
-        outline: 0;
-        padding-bottom: 4px;
-        padding-top: 4px;
-        text-align: center;
-        width: 100%;
-        &:focus {
-          box-shadow: 0 0 5px #1588af;
-          border: 1px solid #1588af !important;
-        }
-
-        input {
-          border: 1px solid transparent;
-          box-sizing: border-box;
-          color: rgb(102, 102, 102);
-          font-weight: 700;
-          outline: 0px;
-          padding-bottom: 4px;
-          padding-top: 4px;
-          text-align: center;
-          width: 100%;
-        }
-      }
     }
 
-    .calendar-month-container {
-      display: flex;
-      flex-wrap: wrap;
-      position: relative;
-      z-index: 1;
-      & + & {
-        margin-top: 4px;
-      }
-
-      button.calendar-month {
-        background-color: unset;
-        border: 2px solid #cccccc;
-        border-color: transparent;
-        border-radius: 50%;
-        box-sizing: border-box;
+    &.selectedMonthRangeStart {         
+      border: none;
+      font-weight: 700;
+      &:after {
+        background-color: #1588af;
+        content: "";
         display: block;
-        margin-top: 4;
-        padding: 0;
-        position: relative;
-        width: 25%;
-        &:before {
-          content: '';
-          display: block;
-          padding-top: 100%;
-        }
-        &:hover,
-        &:focus {
-          border-color: #41a8d2;
-          cursor: pointer;
-        }
-        &:active {
-          background-color: #085a7e;
-          border-color: #085a7e;
-          color: #fff;
-          cursor: pointer;
-        }
-        span {
-          display: block;
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-        }
-
-        &.currentMonth {
-          border-color: auto;
-          border: 2px solid #cccccc;
-          &:focus {
-            border-color: #41a8d2;
-          }
-        }
-
-        &.selectedMonth {
-          background-color: #085a7e;
-          border-color: #085a7e;
-          color: #ffffff;
-          cursor: default;
-          font-weight: 700;
-        }
+        height: 100%;
+        pointer-events: none;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 50%;
+        z-index: -1,
       }
+      &:hover, &:focus{
+        box-shadow: inset 0 0 0 2px #41a8d2,
+      }      
+    }
+                  
+    &.selectedMonthRangeEnd { 
+      border: none;
+      font-weight: 700;
+      &:after {
+        background-color: #1588af;
+        content: "";
+        display: block;
+        height: 100%;
+        pointer-events: none;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 50%;
+        z-index: -1;
+        left: 0;
+        right: auto;
+      }
+      &:hover, &focus {
+        box-shadow: inset 0 0 0 2px #41a8d2,
+      }
+    }
+            
+      
+    &.monthInRange {               
+      background-color: #1588af;
+      border: 2px solid #cccccc;
+      border-color: transparent;
+      border-radius: 0;
+      box-sizing: border-box;
+      display: block;
+      margin-top: 4px;
+      padding: 0;
+      position: relative;
+      width: 25%;
+      &:before {
+        content: '';
+        display: block;
+        padding-top: 100%;
+      }
+      &:active {
+        background-color: #085a7e;
+        border-color: #085a7e;
+        color: #fff;
+        cursor: pointer;
+      }
+      span {
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+      color: #ffffff;
+      font-weight: 700;
+      &:hover, &:focus {
+        border-color: #41a8d2;
+      }
+      
     }
   }
 }

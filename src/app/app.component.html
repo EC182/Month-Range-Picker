@@ -1,8 +1,9 @@
 <div style="display:flex">
   <div style="width: 800px;">
-    <h1>Month Picker </h1>
+
+    <h1>Month Picker with Year Selection</h1>
     
-    <month-picker></month-picker>
+    <calendar-month (onMonthSelected)="debug($event)"></calendar-month>
 
     <hr/>
 
@@ -10,7 +11,7 @@
       Month Range Picker w/ Presets
     </h1>
 
-    <month-range-picker></month-range-picker>
+    <calendar-range (onRangeSelected)="debug($event)"></calendar-range>
 
   </div>
 

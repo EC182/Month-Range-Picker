@@ -45,3 +45,7 @@ export const displayYear = (year: string | number) : string => {
 
   return year.toString();
 };
+
+export function toMonthSequence({ month, year }): number {
+  return (year * 100) + month;
+}  

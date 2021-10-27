@@ -20,4 +20,8 @@ export class AppComponent  {
       });
     }
   }
+
+  public debug(event: any) {
+    console.log(event);
+  }
 }
