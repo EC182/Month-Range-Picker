@@ -1,9 +1,19 @@
 <div style="display:flex">
   <div style="width: 800px;">
 
-    <h1>Month Picker with Year Selection</h1>
+    <h1>Calendar Month</h1>
     
     <calendar-month (onMonthSelected)="debug($event)"></calendar-month>
+
+    <hr/>
+
+    <h1>
+      Calendar Range w/ Presets
+    </h1>
+
+    <div>
+      <calendar-range (onRangeSelected)="debug($event)" [presets]="presets"></calendar-range>        
+    </div>
 
     <hr/>
 
@@ -11,7 +21,19 @@
       Month Range Picker w/ Presets
     </h1>
 
-    <calendar-range (onRangeSelected)="debug($event)" [presets]="presets"></calendar-range>
+    <div>
+     
+      <div>
+        <input type="text" class="pcty-input pcty-input-textfield pcty-datepicker-input" [value]="rangeString" />        
+        <i #anchor class="icon-calendar" (click)="togglePopup()"><p> {{rangeString}} </p> </i>     
+      </div>
+      
+      <kendo-popup [anchor]="anchor" *ngIf="showPopup" [animate]="false">                 
+        <calendar-range (onRangeSelected)="debug($event)" [presets]="presets" [selectedRange]="selectedRange"></calendar-range>                
+      </kendo-popup>
+    
+    </div>
+
 
   </div>
 

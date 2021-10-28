@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Localization, MonthData, MonthRangeData, MonthSequence, OnChangeEvent, OnChangeRangeEvent, Preset } from '../types';
 import { toMonthSequence } from "../utils";
 
 @Component({
   selector: 'calendar-range',
   templateUrl: './calendar-range.component.html',  
-  styleUrls: ['./calendar-range.component.less']
+  styleUrls: ['./calendar-range.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CalendarRangeComponent {
 

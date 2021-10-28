@@ -1,7 +1,9 @@
-import { Component, VERSION } from '@angular/core';
+import { Component, ElementRef, VERSION, ViewChild } from '@angular/core';
+import { TooltipDirective } from "@progress/kendo-angular-tooltip";
 import styleToCss from 'style-object-to-css-string';
 import * as styles from "./input-month/styles";
-import { Preset } from "./input-month/types";
+import { MonthRangeData, OnChangeRangeEvent, Preset } from "./input-month/types";
+import { format } from "date-fns";
 
 @Component({
   selector: 'my-app',
@@ -11,7 +13,9 @@ import { Preset } from "./input-month/types";
 export class AppComponent  {
   name = 'Angular ' + VERSION.major;
   moduleStyles = [];
-
+  showPopup: boolean = false;
+  selectedRange: MonthRangeData; 
+  rangeString: string = "test";
   presets: Preset[];
 
   public ngOnInit(){ 
@@ -36,7 +40,20 @@ export class AppComponent  {
     ];  
   }
 
-  public debug(event: any) {
+  public togglePopup(){
+     this.showPopup = !this.showPopup;
+  }
+
+  public debug(event: OnChangeRangeEvent) {
+    this.showPopup = false;
+    
+    const fromDate = new Date(event.from.year, event.from.month, 1);
+    const toDate = new Date(event.to.year, event.to.month, 1);
+
+    this.selectedRange = event;
+    this.rangeString = `${format(fromDate, "MMMM yyyy")} - ${format(toDate, "MMMM yyyy")}`;
+
     console.log(event);
   }
 }
+ 
