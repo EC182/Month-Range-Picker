@@ -1,5 +1,6 @@
 <!--- PRESETS --> 
 <div class="calendar-range-container">
+  
   <presets (presetSelected)="onPresetSelected($event)" [presets]="presets"></presets>  
 
   <div class="year-picker-container">
@@ -11,8 +12,34 @@
       </button>
     </div>
     <div style="flex-grow: 1;">
-      <calendar (onMonthSelected)="monthSelected($event)" [year]="selectedYear" [highlightRange]="selectedRange"></calendar>  
-      <calendar (onMonthSelected)="monthSelected($event)" [year]="selectedYear + 1" [highlightRange]="selectedRange"></calendar>
+      <div class="calendar-year-container">
+        <div class="calendar-year-input">
+          {{ selectedYear }}
+        </div>
+      </div>
+      <div class="calendar-month-container">
+        <button class="calendar-month" *ngFor="let month of months; let idx = index;"     
+            (click)="monthSelected(month, selectedYear)"
+            [ngClass]="buttonStyleByMonth(month, selectedYear)">
+            <span>{{ month }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="year-picker-container">  
+    <div style="flex-grow: 1;">
+      <div class="calendar-year-container">
+        <div class="calendar-year-input">
+          {{ selectedYear + 1 }}
+        </div>
+      </div>
+      <div class="calendar-month-container">
+        <button class="calendar-month" *ngFor="let month of months; let idx = index"     
+            (click)="monthSelected(month, selectedYear + 1)"
+            [ngClass]="buttonStyleByMonth(month, selectedYear + 1)">
+            <span>{{ month }}</span>
+        </button>
+      </div>
     </div>
     <div class="button-container button-container-right">
       <button type="button" (click)="changeYear(1)">
@@ -21,8 +48,5 @@
         </div>
       </button>
     </div>
-  </div>
-
-
-  
+  </div>  
 </div>
