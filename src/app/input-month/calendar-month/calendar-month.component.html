@@ -8,8 +8,19 @@
       </button>
     </div>
     <div style="flex-grow: 1;">
-      <calendar (onMonthSelected)="monthSelection($event)" [year]="selectedYear"></calendar>
-    </div>
+      <div class="calendar-year-container">
+        <div class="calendar-year-input">
+          {{ selectedYear }}
+        </div>
+      </div>
+      <div class="calendar-month-container">
+        <button class="calendar-month" *ngFor="let month of months; let idx = index;"     
+            (click)="monthSelection(month)"
+            [ngClass]="buttonStyleByMonth(month)">
+            <span>{{ month }}</span>
+        </button>
+      </div>
+    </div>    
     <div class="button-container button-container-right">
       <button type="button" (click)="changeYear(1)">
         <div>
