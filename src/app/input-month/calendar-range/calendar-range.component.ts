@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Localization, MonthData, MonthRangeData, MonthSequence, OnChangeEvent, OnChangeRangeEvent, Preset } from '../types';
 import { toMonthSequence } from "../utils";
 
@@ -7,13 +7,14 @@ import { toMonthSequence } from "../utils";
   templateUrl: './calendar-range.component.html',  
   styleUrls: ['./calendar-range.component.less']
 })
-export class CalendarRangeComponent implements OnInit {
+export class CalendarRangeComponent {
 
+  @Input() public selectedRange: MonthRangeData;
+  @Input() public presets: Preset[] = [];
   @Output() public readonly onRangeSelected: EventEmitter<OnChangeRangeEvent> = new EventEmitter();
 
   constructor() { }
 
-  public presets: Preset[] = [];
   public months: string[] = Localization.monthAbbreviations;
 
   public selectedYear: number = new Date().getFullYear();
@@ -28,24 +29,10 @@ export class CalendarRangeComponent implements OnInit {
   }
 
   private static readonly _currentDate: Date = new Date(); 
-  private selectedRange: MonthRangeData;
   private lastSelectedMonth: MonthData;
-
-  ngOnInit() {
-    this.presets = ["lastMonth", "nextMonth",
-      {
-        name: "The 80s",
-        onClick: () => { 
-          return {
-            from: { month: 0, year: 1980 },
-            to: { month: 11, year: 1989 },
-          };
-        }
-      }
-    ];  
-  }
   
   public onPresetSelected(event: OnChangeRangeEvent) {    
+    this.selectedYear = event.from.year;
     this.selectedRange = event;
     this.onRangeSelected.emit(event);
   }
@@ -56,6 +43,7 @@ export class CalendarRangeComponent implements OnInit {
 
     if(!this.lastSelectedMonth){
       this.lastSelectedMonth = event;
+      this.selectedRange = { from: event, to: undefined };
       return;
     }
 
